@@ -1,0 +1,10 @@
+C:\Users\Guilherme\source\repos\NovoTestePong\bin\Debug\WinformsEngine.exe.config
+C:\Users\Guilherme\source\repos\NovoTestePong\bin\Debug\WinformsEngine.exe
+C:\Users\Guilherme\source\repos\NovoTestePong\bin\Debug\WinformsEngine.pdb
+C:\Users\Guilherme\source\repos\NovoTestePong\obj\Debug\WinformsEngine.csproj.AssemblyReference.cache
+C:\Users\Guilherme\source\repos\NovoTestePong\obj\Debug\WinformsEngine.Properties.Resources.resources
+C:\Users\Guilherme\source\repos\NovoTestePong\obj\Debug\WinformsEngine.Samples.Pong.PongForm.resources
+C:\Users\Guilherme\source\repos\NovoTestePong\obj\Debug\WinformsEngine.csproj.GenerateResource.cache
+C:\Users\Guilherme\source\repos\NovoTestePong\obj\Debug\WinformsEngine.csproj.CoreCompileInputs.cache
+C:\Users\Guilherme\source\repos\NovoTestePong\obj\Debug\WinformsEngine.exe
+C:\Users\Guilherme\source\repos\NovoTestePong\obj\Debug\WinformsEngine.pdb

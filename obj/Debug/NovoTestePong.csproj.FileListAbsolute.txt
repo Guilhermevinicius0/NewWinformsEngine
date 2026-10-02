@@ -1,0 +1,10 @@
+C:\Users\Guilherme\source\repos\NovoTestePong\bin\Debug\NovoTestePong.exe.config
+C:\Users\Guilherme\source\repos\NovoTestePong\bin\Debug\NovoTestePong.exe
+C:\Users\Guilherme\source\repos\NovoTestePong\bin\Debug\NovoTestePong.pdb
+C:\Users\Guilherme\source\repos\NovoTestePong\obj\Debug\NovoTestePong.Properties.Resources.resources
+C:\Users\Guilherme\source\repos\NovoTestePong\obj\Debug\NovoTestePong.csproj.GenerateResource.cache
+C:\Users\Guilherme\source\repos\NovoTestePong\obj\Debug\NovoTestePong.csproj.CoreCompileInputs.cache
+C:\Users\Guilherme\source\repos\NovoTestePong\obj\Debug\NovoTestePong.exe
+C:\Users\Guilherme\source\repos\NovoTestePong\obj\Debug\NovoTestePong.pdb
+C:\Users\Guilherme\source\repos\NovoTestePong\obj\Debug\NovoTestePong.csproj.AssemblyReference.cache
+C:\Users\Guilherme\source\repos\NovoTestePong\obj\Debug\NovoTestePong.Samples.Pong.PongForm.resources

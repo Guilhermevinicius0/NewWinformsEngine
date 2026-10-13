@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
+using WinformsEngine.Engine.Systems.General;
 
 namespace WinformsEngine.Engine.Systems.Render
 {
@@ -38,21 +39,31 @@ namespace WinformsEngine.Engine.Systems.Render
             BackColor = color;
         }
 
-        public void Draw(Graphics g)
+        public void Draw(Graphics g, Camera camera)
         {
             if (_owner.Size == Vector2.Zero)
                 return;
 
+            var position = camera.WorldToScreen(_owner.Position);
+            
+            float left = position.X;
+            float top = position.Y;
+            float right = left + _owner.Size.X;
+            float bottom = top + _owner.Size.Y;
+            float width = _owner.Size.X * camera.Zoom;
+            float height = _owner.Size.Y * camera.Zoom;
+
+
             if (Show_Wires) 
             {
-                g.DrawLine(_backColorPen, _owner.Left, _owner.Top, _owner.Right, _owner.Top);
-                g.DrawLine(_backColorPen, _owner.Right, _owner.Top, _owner.Right, _owner.Bottom);
-                g.DrawLine(_backColorPen, _owner.Right, _owner.Bottom, _owner.Left, _owner.Bottom);
-                g.DrawLine(_backColorPen, _owner.Left, _owner.Bottom, _owner.Left, _owner.Top);
+                g.DrawLine(_backColorPen, left, top, width, top);
+                g.DrawLine(_backColorPen, width, top, width, height);
+                g.DrawLine(_backColorPen, width, height, left, height);
+                g.DrawLine(_backColorPen, left, height, left, top);
                 return;
             }
 
-            g.FillRectangle(_backColorBrush, _owner.Position.X, _owner.Position.Y, _owner.Size.X, _owner.Size.Y);
+            g.FillRectangle(_backColorBrush, left, top, width, height);
         }
 
         public void Dispose()

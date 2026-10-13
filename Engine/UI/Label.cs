@@ -66,6 +66,7 @@ namespace WinformsEngine.Engine.UI
         }
 
         public override int ZIndex { get; set; } = 1;
+        public override bool IsFixedToScreen { get; set; } = true;
 
         public Label(Font font, Color textColor, Scene scene) : base(scene) 
         {

@@ -16,6 +16,8 @@ namespace WinformsEngine.Engine.Systems
     {
         private FpsCounter _fpsCounter { get; set; } = new FpsCounter();
 
+        public Camera MainCamera { get; set; } = new Camera(Vector2.Zero, new Vector2(200,200));
+
         public IdleTimer Timer = new IdleTimer();
         public KeyboardMouseInput Input = new KeyboardMouseInput();
         private readonly SpatialGrid _grid = new SpatialGrid();
@@ -54,6 +56,12 @@ namespace WinformsEngine.Engine.Systems
         private bool _isPaused;
 
         private readonly HashSet<Entity> _cachedCollisions = new HashSet<Entity>();
+
+        public void SetMainCameraViewPort(Vector2 position, Vector2 size) 
+        {
+            MainCamera.Position = position;
+            MainCamera.Size = size; 
+        }
 
         public void PauseScene()
         {
@@ -127,6 +135,9 @@ namespace WinformsEngine.Engine.Systems
                 _grid.RemoveItem(entity);
                 _renderManager.RemoveEntity(entity);
 
+                if (!entity.IsStatic)
+                    entity.PositionChangedEvent -= OnEntityPositionChanged;
+
                 entity.NotifyDestroyed();
                 interactions++;
             }
@@ -148,8 +159,11 @@ namespace WinformsEngine.Engine.Systems
 
                 if (entity.IsStatic)
                     StaticEntities.Add(entity);
-                else
+                else 
+                {
                     DynamicEntities.Add(entity);
+                    entity.PositionChangedEvent += OnEntityPositionChanged;
+                }
 
                 _grid.AddItem(entity);
                 _renderManager.AddEntity(entity);
@@ -198,7 +212,6 @@ namespace WinformsEngine.Engine.Systems
             }
         }
 
-
         internal float GetCurrentDelta() => _currentDelta;
 
         public void ProcessPhysics(float delta)
@@ -234,10 +247,19 @@ namespace WinformsEngine.Engine.Systems
             if (!FreezePhysics)
                 ProcessPhysics(delta);
 
-            Input.UpdatePreviewsInputs();
+            Input.UpdateInputs(delta);
+            MainCamera.Update(delta);
 
-            //_fpsCounter.Tick(delta);
-            //Console.WriteLine(_fpsCounter.Fps);
+            _fpsCounter.Tick(delta);
+            Console.WriteLine(_fpsCounter.Fps);
+        }
+
+        public void OnEntityPositionChanged(Entity entity, Vector2 previewsPosition) 
+        {
+            if (entity.IsStatic)
+                return;
+
+            _grid.UpdateItemCell(entity, previewsPosition);
         }
 
         public void AddTaggedItem(string tag, Entity entity)
@@ -292,7 +314,7 @@ namespace WinformsEngine.Engine.Systems
 
         public void Render(Graphics g)
         {
-            _renderManager.Render(g);
+            _renderManager.Render(g, MainCamera);
         }
 
         public HashSet<Entity> GetCollisions(Entity entity, string tag = null, List<Entity> entities = null)
@@ -379,14 +401,12 @@ namespace WinformsEngine.Engine.Systems
             {
                 var previews = entity.Position;
                 entity.Position = new Vector2(entity.Position.X + displacement.X, entity.Position.Y);
-                _grid.UpdateItemCell(entity, previews);
             }
 
             if (displacement.Y != 0)
             {
                 var previews = entity.Position;
                 entity.Position = new Vector2(entity.Position.X, entity.Position.Y + displacement.Y);
-                _grid.UpdateItemCell(entity, previews);
             }
         }
 
@@ -429,7 +449,6 @@ namespace WinformsEngine.Engine.Systems
 
                     var previews = entity.Position;
                     entity.Position = new Vector2(entity.Position.X + overlapX * dir, entity.Position.Y);
-                    _grid.UpdateItemCell(entity, previews);
                 }
                 else
                 {
@@ -438,7 +457,6 @@ namespace WinformsEngine.Engine.Systems
 
                     var previews = entity.Position;
                     entity.Position = new Vector2(entity.Position.X, entity.Position.Y + overlapY * dir);
-                    _grid.UpdateItemCell(entity, previews);
                 }
 
                 interactions++;

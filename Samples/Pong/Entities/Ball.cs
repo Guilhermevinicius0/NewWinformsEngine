@@ -31,7 +31,7 @@ namespace WinformsEngine.Samples.Pong.Entities
             MaxBottom = maxBottom;
             _defaultSpeed = speed;
             RenderSystem = new RawSquareRender(this, Color.LightGray);
-            SoundSystem = new BeepSoundPlayer(90, 200);
+            SoundSystem = new BeepSoundPlayer(110, 200);
         }
 
         public override void ProcessPhysiques()

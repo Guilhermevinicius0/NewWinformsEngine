@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using WinformsEngine.Engine.Entities;
+using WinformsEngine.Engine.Systems.General;
 using WinformsEngine.Engine.UI;
 
 namespace WinformsEngine.Engine.Systems.Render
@@ -46,7 +47,7 @@ namespace WinformsEngine.Engine.Systems.Render
             _ui.Remove(element);
         }
 
-        public void Render(Graphics g)
+        public void Render(Graphics g, Camera camera)
         {
             for (int i = 0; i < _entities.Count; i++)
             {
@@ -55,7 +56,18 @@ namespace WinformsEngine.Engine.Systems.Render
                 if (entity.RenderSystem == null)
                     continue;
 
-                entity.RenderSystem.Draw(g);
+                var screenPos = camera.WorldToScreen(entity.Position);
+                var screenSize = entity.Size * camera.Zoom;
+
+                bool visible =
+                    screenPos.X + screenSize.X > 0 &&
+                    screenPos.X < camera.Size.X * camera.Zoom &&
+                    screenPos.Y + screenSize.Y > 0 &&
+                    screenPos.Y < camera.Size.Y * camera.Zoom;
+
+                if (!visible) continue;
+
+                entity.RenderSystem.Draw(g, camera);
             }
 
             for (int i = 0; i < _ui.Count; i++)
@@ -65,7 +77,8 @@ namespace WinformsEngine.Engine.Systems.Render
                 if (ui.RenderSystem == null)
                     continue;
 
-                ui.RenderSystem.Draw(g);
+                 
+                ui.RenderSystem.Draw(g, camera);
             }
         }
     }

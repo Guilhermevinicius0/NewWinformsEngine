@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using WinformsEngine.Engine.Entities;
+﻿using System.Drawing;
+using WinformsEngine.Engine.Systems.General;
 using WinformsEngine.Engine.UI;
 
 namespace WinformsEngine.Engine.Systems.Render
@@ -13,10 +7,9 @@ namespace WinformsEngine.Engine.Systems.Render
     public class TextRender : IUIRenderSystem
     {
         private readonly object _lock = new object();
-        
-        private UIItem _owner;
-        public UIItem Owner { get => _owner; } 
 
+        private UIItem _owner;
+        public UIItem Owner { get => _owner; }
 
         public Font Font;
 
@@ -24,27 +17,27 @@ namespace WinformsEngine.Engine.Systems.Render
         private Color _textColor;
 
         private string _content = string.Empty;
-        public string Content 
+        public string Content
         {
             get
             {
-                lock (_lock) 
-                    return _content;   
+                lock (_lock)
+                    return _content;
             }
 
-            set 
+            set
             {
                 if (value == _content) return;
-                
-                lock (_lock) 
+
+                lock (_lock)
                     _content = value;
             }
         }
 
-        public Color TextColor 
+        public Color TextColor
         {
             get => _textColor;
-            set 
+            set
             {
                 if (value == _textColor) return;
                 _textBrush?.Dispose();
@@ -53,9 +46,7 @@ namespace WinformsEngine.Engine.Systems.Render
             }
         }
 
-      
-
-        public TextRender(Font font, Color textColor, UIItem owner) 
+        public TextRender(Font font, Color textColor, UIItem owner)
         {
             Font = font;
             TextColor = textColor;
@@ -67,10 +58,19 @@ namespace WinformsEngine.Engine.Systems.Render
             _textBrush?.Dispose();
         }
 
-        public void Draw(Graphics g)
+        public void Draw(Graphics g, Camera camera)
         {
-            lock (_lock) 
-                g.DrawString(_content, Font, _textBrush, _owner.Position.X, _owner.Position.Y);       
+            lock (_lock)
+            {
+                if (_owner.IsFixedToScreen)
+                {
+                    g.DrawString(_content, Font, _textBrush, _owner.Position.X, _owner.Position.Y);
+                    return;
+                }
+
+                var position = camera.WorldToScreen(_owner.Position);
+                g.DrawString(_content, Font, _textBrush, position.X, position.Y);
+            }
         }
     }
 }

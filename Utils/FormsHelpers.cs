@@ -16,6 +16,7 @@ namespace WinformsEngine.Utils
             form.KeyPreview = true;
             MapEvents(form, scene);
             scene.ScreenSize = new Vector2(form.ClientSize.Width, form.ClientSize.Height);
+            scene.SetMainCameraViewPort(Vector2.Zero, new Vector2(form.ClientSize.Width, form.ClientSize.Height));
         }
 
         public static void StartGameLoop(this Form form, Scene scene) 

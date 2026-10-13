@@ -14,6 +14,7 @@ namespace WinformsEngine.Engine.UI
     {
         public Vector2 Position { get; set; }
         public bool IsVisible { get; set; }
+        public abstract bool IsFixedToScreen { get; set; }
         public abstract int ZIndex { get; set; }
         public IRenderSystem RenderSystem {get;set;}
 

@@ -20,6 +20,9 @@ namespace WinformsEngine.Engine.Entities
         public IEntityRenderSystem RenderSystem { get; set; } = null;
         public ISoundPlayer SoundSystem { get; set; } = null;
 
+        public event Action<Entity, Vector2> PositionChangedEvent;
+        public event Action<Entity, Vector2> SizeChangedEvent;
+
         protected event Action<Entity> CollisionEvent;
         protected event Action SceneEnteredEvent;
         protected event Action DestroyEvent;
@@ -62,16 +65,21 @@ namespace WinformsEngine.Engine.Entities
             Speed = speed;
             MaxSpeed = maxSpeed;
 
-            Hitbox = new HitBox
-            {
-                CollisionEnabled = true,
-                Size = Size,
-                CollisionLayer = 1,
-                LayersToCollide = new List<int> { 1 }
-            };
-
+            Hitbox = new HitBox(this, Size, new List<int> { 1 }, true, true, 1);
             Hitbox.SetParent(this);
             CollisionEvent += OnColide;
+            base.PositionChangedEvent += OnTransformPositionChanged;
+            base.SizeChangedEvent += OnTransformSizeChanged;
+        }
+
+        private void OnTransformSizeChanged(Vector2 previewsSize)
+        {
+            SizeChangedEvent?.Invoke(this, previewsSize);
+        }
+        
+        private void OnTransformPositionChanged(Vector2 previewsPosition)
+        {
+            PositionChangedEvent?.Invoke(this, previewsPosition);
         }
 
         public void NotifyCollision(Entity entity) => CollisionEvent?.Invoke(entity);
@@ -144,6 +152,9 @@ namespace WinformsEngine.Engine.Entities
         protected virtual void OnDestroyed()
         {
             RenderSystem?.Dispose();
+            CollisionEvent -= OnColide;
+            base.PositionChangedEvent -= OnTransformPositionChanged;
+            base.SizeChangedEvent -= OnTransformSizeChanged;
         }
     }
 }

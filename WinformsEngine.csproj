@@ -53,7 +53,9 @@
     <Compile Include="Engine\Entities\EntityCollisionInfo.cs" />
     <Compile Include="Engine\Systems\Enums\SceneStates.cs" />
     <Compile Include="Engine\Systems\General\Camera.cs" />
+    <Compile Include="Engine\Systems\General\CountDownTimer.cs" />
     <Compile Include="Engine\Systems\General\FpsCounter.cs" />
+    <Compile Include="Engine\Systems\General\Scheduler.cs" />
     <Compile Include="Engine\Systems\General\Transform.cs" />
     <Compile Include="Engine\Systems\Render\IEntityRenderSystem.cs" />
     <Compile Include="Engine\Systems\Render\IRenderSystem.cs" />
@@ -95,6 +97,12 @@
     <Compile Include="Engine\Systems\Inputs\KeyboardMouseInput.cs" />
     <Compile Include="Engine\Systems\Scene\Scene.cs" />
     <Compile Include="Engine\Systems\General\SpatialGrid.cs" />
+    <Compile Include="Samples\Snake\SnakeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Samples\Snake\SnakeForm.Designer.cs">
+      <DependentUpon>SnakeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\FormsHelpers.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -112,6 +120,9 @@
     <EmbeddedResource Include="Samples\Pong\PongForm.resx">
       <DependentUpon>PongForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Samples\Snake\SnakeForm.resx">
+      <DependentUpon>SnakeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -126,6 +137,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Samples\Snake\Entities\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

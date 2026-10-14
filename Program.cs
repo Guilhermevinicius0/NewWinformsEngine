@@ -18,7 +18,7 @@ namespace WinformsEngine
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FlapBirdForm());
+            Application.Run(new PongForm());
         }
     }
 }

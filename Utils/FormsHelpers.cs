@@ -21,9 +21,9 @@ namespace WinformsEngine.Utils
 
         public static void StartGameLoop(this Form form, Scene scene) 
         {
-            scene.Timer.Tick += (double delta) =>
+            scene.Timer.Tick += (float delta) =>
             {
-                scene.ProcessWorldTick((float)delta);
+                scene.ProcessWorldTick(delta);
                 form.Invalidate();
             };
 

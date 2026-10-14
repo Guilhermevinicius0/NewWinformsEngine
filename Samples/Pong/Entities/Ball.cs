@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Numerics;
 using System.Threading.Tasks;
 using WinformsEngine.Engine.Entities;
+using WinformsEngine.Engine.Systems.General;
 using WinformsEngine.Engine.Systems.Render;
 using WinformsEngine.Engine.Systems.Scene;
 using WinformsEngine.Engine.Systems.Sounds;
@@ -11,6 +12,8 @@ namespace WinformsEngine.Samples.Pong.Entities
 {
     public class Ball : Entity
     {
+        private CountDownTimer _timer;
+
         private Paddle _lastTarget = null;
         public event Action<Ball, string> Scored;
         public override int ZIndex { get; set; } = 1;
@@ -19,8 +22,6 @@ namespace WinformsEngine.Samples.Pong.Entities
 
         private Vector2 _defaultPosition;
         private float _defaultSpeed;
-        private bool _isResetting;
-        private float _resetTimer;
 
         public int MaxTop { get; set; }
         public int MaxBottom { get; set; }
@@ -32,20 +33,13 @@ namespace WinformsEngine.Samples.Pong.Entities
             _defaultSpeed = speed;
             RenderSystem = new RawSquareRender(this, Color.LightGray);
             SoundSystem = new BeepSoundPlayer(110, 200);
+            _timer = new CountDownTimer(scene, 1f, null);
         }
 
         public override void ProcessPhysiques()
         {
-            if (_isResetting)
-            {
-                _resetTimer -= GetCurrentDelta();
-                if (_resetTimer <= 0)
-                {
-                    _isResetting = false;
-                    Velocity = Direction * Speed;
-                }
+            if (_timer.IsRunning)
                 return;
-            }
 
             Velocity = Direction * Speed;
             MoveAndCollide();
@@ -92,9 +86,7 @@ namespace WinformsEngine.Samples.Pong.Entities
 
         private void StartReset(string player)
         {
-            _isResetting = true;
-            _resetTimer = 1f;
-
+            _timer.Start();
             Scored?.Invoke(this, player);
             Reset();
         }
@@ -115,6 +107,12 @@ namespace WinformsEngine.Samples.Pong.Entities
             if (paddle == _lastTarget) return;
             Speed = Math.Min(Speed * 1.05f, MaxSpeed);
             _lastTarget = paddle;
+        }
+
+        protected override void OnDestroyed()
+        {
+            _timer.Stop();
+
         }
     }
 }

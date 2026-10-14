@@ -19,3 +19,4 @@ C:\Users\Guilherme\source\repos\WinformsEngne\obj\Debug\WinformsEngine.csproj.Co
 C:\Users\Guilherme\source\repos\WinformsEngne\obj\Debug\WinformsEngine.exe
 C:\Users\Guilherme\source\repos\WinformsEngne\obj\Debug\WinformsEngine.pdb
 C:\Users\Guilherme\source\repos\WinformsEngne\obj\Debug\WinformsEngine.Samples.FlapBird.FlapBirdForm.resources
+C:\Users\Guilherme\source\repos\WinformsEngne\obj\Debug\WinformsEngine.Samples.Snake.SnakeForm.resources

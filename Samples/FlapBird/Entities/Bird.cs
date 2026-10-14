@@ -10,7 +10,6 @@ namespace WinformsEngine.Samples.FlapBird.Entities
 {
     public class Bird : Entity
     {
-
         public override bool IsStatic { get; set; } = false;
         public override bool IsPausable { get; set; } = true;
         public override int ZIndex { get; set; } = 1;

@@ -8,7 +8,7 @@ namespace WinformsEngine.Engine.Systems
 {
     public class IdleTimer
     {
-        public event Action<double> Tick;
+        public event Action<float> Tick;
         private const uint PM_NOREMOVE = 0x0000;
         private readonly Stopwatch _stopWatch = new Stopwatch();
         private TimeSpan _lastTIme;
@@ -31,7 +31,7 @@ namespace WinformsEngine.Engine.Systems
             while (IsIdle())
             {
                 TimeSpan currentTime = _stopWatch.Elapsed;
-                double delta = (currentTime - _lastTIme).TotalSeconds;
+                float delta = (float)(currentTime - _lastTIme).TotalSeconds;
                 Tick?.Invoke(delta);
                 _lastTIme = currentTime;
             }

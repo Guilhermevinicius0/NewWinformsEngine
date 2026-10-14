@@ -1,5 +1,4 @@
 ﻿using WinformsEngine.Engine.Entities;
-using WinformsEngine.Engine.Systems;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinformsEngine.Engine.Systems.Render;
 using WinformsEngine.Engine.Systems.Inputs;
+using WinformsEngine.Engine.Systems.Scene;
 
 namespace WinformsEngine.Samples.Pong.Entities
 {
@@ -63,7 +63,7 @@ namespace WinformsEngine.Samples.Pong.Entities
             else
                 Velocity = Direction * Speed;
 
-            MoveAndSlide();
+            MoveAndCollide();
             ClampPaddleToScreen();
         }
 

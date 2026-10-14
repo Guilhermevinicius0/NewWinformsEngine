@@ -74,7 +74,7 @@ namespace WinformsEngine.Engine.Systems.Render
             {
                 var ui = _ui[i];
 
-                if (ui.RenderSystem == null)
+                if (ui.RenderSystem == null || !ui.IsVisible)
                     continue;
 
                  

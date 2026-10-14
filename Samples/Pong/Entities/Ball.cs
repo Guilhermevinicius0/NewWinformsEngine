@@ -3,15 +3,15 @@ using System.Drawing;
 using System.Numerics;
 using System.Threading.Tasks;
 using WinformsEngine.Engine.Entities;
-using WinformsEngine.Engine.Systems;
 using WinformsEngine.Engine.Systems.Render;
+using WinformsEngine.Engine.Systems.Scene;
 using WinformsEngine.Engine.Systems.Sounds;
 
 namespace WinformsEngine.Samples.Pong.Entities
 {
     public class Ball : Entity
     {
-        private Entity _lastTarget = null;
+        private Paddle _lastTarget = null;
         public event Action<Ball, string> Scored;
         public override int ZIndex { get; set; } = 1;
         public override bool IsStatic { get; set; } = false;
@@ -48,7 +48,7 @@ namespace WinformsEngine.Samples.Pong.Entities
             }
 
             Velocity = Direction * Speed;
-            MoveAndSlide();
+            MoveAndCollide();
             BounceOnYBorders();
             CheckScoreConditions();
         }
@@ -101,20 +101,20 @@ namespace WinformsEngine.Samples.Pong.Entities
 
         protected override void OnColide(Entity entity)
         {
-            if (!entity.IsTaggedWith("pad")) return;
+            if (!(entity is Paddle paddle)) return;
 
             Console.WriteLine("Colidiu");
             SoundSystem?.PlaySound();
 
-            float hitOffset = (CenteredY - entity.CenteredY) / (entity.Size.Y / 2f);
-            Direction = Vector2.Normalize(new Vector2(entity.IsTaggedWith("left") ? 1 : -1, hitOffset));
+            float hitOffset = (CenteredY - paddle.CenteredY) / (paddle.Size.Y / 2f);
+            Direction = Vector2.Normalize(new Vector2(paddle.IsTaggedWith("left") ? 1 : -1, hitOffset));
 
             if (Math.Abs(Direction.X) < 0.1f)
                 Direction = new Vector2(Direction.X < 0 ? -0.2f : 0.2f, Direction.Y);
 
-            if (entity == _lastTarget) return;
+            if (paddle == _lastTarget) return;
             Speed = Math.Min(Speed * 1.05f, MaxSpeed);
-            _lastTarget = entity;
+            _lastTarget = paddle;
         }
     }
 }

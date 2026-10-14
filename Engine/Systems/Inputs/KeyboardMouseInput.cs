@@ -27,6 +27,9 @@ namespace WinformsEngine.Engine.Systems.Inputs
         public Vector2 CurrentMousePosition = Vector2.Zero;
         public Vector2 PreviewsMousePosition = Vector2.Zero;
 
+        public event Action<Keys> KeyPressedEvent;
+        public event Action<Keys> KeyReleasedEvent;
+
         public void UpdateMouse(float x, float y)
         {
             CurrentMousePosition.X = x;
@@ -69,9 +72,14 @@ namespace WinformsEngine.Engine.Systems.Inputs
                 PressedKeys.Add(key);
 
                 BufferChanged?.Invoke(GetBufferKeys());
+                KeyPressedEvent?.Invoke(key);
             }
             else
+            {
                 PressedKeys.Remove(key);
+                KeyReleasedEvent?.Invoke(key);
+            }
+
         }
 
         public void ClearBuffer()

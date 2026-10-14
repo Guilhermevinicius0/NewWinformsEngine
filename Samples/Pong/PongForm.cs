@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Windows.Forms;
-using WinformsEngine.Engine.Systems;
+using WinformsEngine.Engine.Systems.Scene;
 using WinformsEngine.Samples.Pong.Entities;
 using WinformsEngine.Utils;
 
@@ -74,9 +74,6 @@ namespace WinformsEngine.Samples.Pong
             pad1.DefineDefaultPosition();
             pad2.DefineDefaultPosition();
 
-            ball.AddTag("ball");
-            pad1.AddTag("pad");
-            pad2.AddTag("pad");
             pad1.AddTag("left");
             pad2.AddTag("right");
 
@@ -102,11 +99,8 @@ namespace WinformsEngine.Samples.Pong
             var lbl = (_scene.GetUIElementsTaggedWith(text).FirstOrDefault() as Engine.UI.Label);
             lbl.Content = text == "left" ? _score.Player2_Score.ToString() : _score.Player1_Score.ToString();
 
-            foreach (var entity in _scene.GetEntitiesTaggedWith("pad"))
-            {
-                if (entity is Paddle pad)
-                    pad.Reset();
-            }
+            foreach (var paddle in _scene.GetAllDynamicEntities<Paddle>())
+                paddle.Reset();
 
             ball.Reset();
         }

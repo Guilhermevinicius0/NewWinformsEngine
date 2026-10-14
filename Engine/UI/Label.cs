@@ -5,8 +5,8 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using WinformsEngine.Engine.Systems;
 using WinformsEngine.Engine.Systems.Render;
+using WinformsEngine.Engine.Systems.Scene;
 
 namespace WinformsEngine.Engine.UI
 {
@@ -72,7 +72,7 @@ namespace WinformsEngine.Engine.UI
         {
             _font = font;
             _textColor = textColor;
-
+            IsVisible = true;
             RenderSystem = new TextRender(font, textColor, this);
         }
 
